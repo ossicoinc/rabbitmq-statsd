@@ -1,3 +1,8 @@
-FROM resin/armhf-alpine-node:slim
+FROM node:12-slim
 
-RUN npm install forever -g
+COPY ./package.json /var/app/package.json
+RUN npm install
+
+COPY . /var/app
+
+CMD ["node", "/var/app/app.js"]

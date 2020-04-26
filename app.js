@@ -2,20 +2,39 @@ var AMQPStats = require('amqp-stats'),
     logger = require('winston'),
     config = require('./config.json'),
     SDC = require('statsd-client'),
-    statsdClient = new SDC(config.statsd),
-    // stasd client creation
-    stats = new AMQPStats({
-        username: config.amqp.username,
-        password: config.amqp.password,
-        hostname: config.amqp.host,
-        protocol: config.amqp.protocol
+    statsdClient = new SDC({
+        host: 'statsd',
+        port: '8125',
+        prefix: 'rabbit'
     });
 
-
 // config winston
-logger.add(logger.transports.File, {
-    filename: config.logPath
+// logger.add(logger.transports.File, {
+//     filename: config.logPath
+// });
+logger.configure({transports: [new (logger.transports.Console)({
+        level: 'info',
+        humanReadableUnhandledException: true
+    })]
 });
+
+function checkVar(v) {
+    if (!process.env[v]) {
+        throw new Error("env var " + v + " is not set");
+    }
+}
+checkVar('RABBIT_ADMIN_USERNAME');
+checkVar('RABBIT_ADMIN_PASSWORD');
+checkVar('VIDEO_RABBIT_SERVER');
+// checkVar('VIDEO_RABBIT_PORT');
+
+    // stasd client creation
+var stats = new AMQPStats({
+        username: process.env.RABBIT_ADMIN_USERNAME || 'nousername',
+        password: process.env.RABBIT_ADMIN_PASSWORD || 'nopass',
+        hostname: process.env.VIDEO_RABBIT_SERVER + ':15672',
+        protocol: config.amqp.protocol
+    });
 
 logger.info('Rabbit monitoring starting');
 logger.debug(config);

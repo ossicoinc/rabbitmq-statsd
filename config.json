@@ -1,10 +1,10 @@
 {
-	"collectInterval": 30000,
+	"collectInterval": 10000,
 	"amqp": {
 		"username": "AMQP_USERNAME",
 		"password": "AMQP_PASSWORD",
 		"host": "AMQP_HOSTNAME:15672",
-		"protocol": "HTTP_OR_HTTPS"
+		"protocol": "HTTP"
 	},
 	"statsd": {
 		"host": "STATSD_HOSTNAME",
