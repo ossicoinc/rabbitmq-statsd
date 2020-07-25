@@ -1,7 +1,7 @@
 FROM node:12-slim
 
 COPY ./package.json /var/app/package.json
-RUN npm install
+RUN cd /var/app && npm install
 
 COPY . /var/app
 

@@ -60,9 +60,9 @@ var collectQueuesStats = function() {
                 statsdClient.gauge(queueNamespace + 'deliver', queue.message_stats.deliver);
                 statsdClient.gauge(queueNamespace + 'publish', queue.message_stats.publish);
                 statsdClient.gauge(queueNamespace + 'redeliver', queue.message_stats.redeliver);
-                statsdClient.gauge(queueNamespace + 'consumers', queue.message_stats.consumers);
             }
-
+            // console.log(queueNamespace, 'consumers', queue.consumers);
+            statsdClient.gauge(queueNamespace + 'consumers', queue.consumers);
             statsdClient.gauge(queueNamespace + 'messages', queue.messages);
             statsdClient.gauge(queueNamespace + 'messagesReady', queue.messages_ready);
             statsdClient.gauge(queueNamespace + 'messagesUnacknowledged', queue.messages_unacknowledged);
